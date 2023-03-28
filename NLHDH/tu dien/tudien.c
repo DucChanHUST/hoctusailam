@@ -37,6 +37,9 @@ void printList(node* head){
     }
 }
 
+
+
+
 int main(){
     FILE *fp = NULL;
     char text[12] = {0};
@@ -57,17 +60,7 @@ int main(){
     // }
 
     // *** test ***
-    // node* aa = newNode("A", 1, 1);
-    // node* ab = newNode("A", 7, 8);
-    // node* ac = newNode("A", 1, 1);
-    // node* ba = newNode("B", 5, 2);
-    // node* bb = newNode("B", 1, 1);
-    // node* ca = newNode("C", 1, 1);
-    // aa->next = ab; 
-    // ab->next = ac;
-    // aa->down = ba;
-    // ba->next = bb;
-    // ba->down = ca;
+
 
 
 
