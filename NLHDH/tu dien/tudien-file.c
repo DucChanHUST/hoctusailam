@@ -163,6 +163,7 @@ int main(){
     fopen_s(&fo, "TuDien.txt", "w");
     node* pnext;
     node* pdown = head;
+    k = 1;
     while (pdown)
     {
         pnext = pdown;
@@ -174,8 +175,10 @@ int main(){
             pnext = pnext->next;
         }
         fprintf(fo, "\n");
+        k++;
         pdown = pdown->down;
     }
+    fprintf(fo, "Co tong cong %d tu", k);
 
     fclose(fi);
     fclose(fo);
