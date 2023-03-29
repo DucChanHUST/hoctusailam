@@ -10,6 +10,79 @@ typedef struct _Node
 
 } node;
 
+node* merge(node* firstNode, node* secondNode)
+{
+	node* merged = (node*)malloc(sizeof(node));
+	node* temp = (node*)malloc(sizeof(node));
+
+	// merged is equal to temp so in the end we have the top
+	// node.
+	merged = temp;
+
+	// while either firstNode or secondNode becomes NULL
+	while (firstNode != NULL && secondNode != NULL) {
+
+		if (strcmp(firstNode->data, secondNode->data) < 0) {
+			temp->down = firstNode;
+			firstNode = firstNode->down;
+		}
+
+		else {
+			temp->down = secondNode;
+			secondNode = secondNode->down;
+		}
+		temp = temp->down;
+	}
+
+	// any remaining node in firstNode or secondNode gets
+	// inserted in the temp List
+	while (firstNode != NULL) {
+		temp->down = firstNode;
+		firstNode = firstNode->down;
+		temp = temp->down;
+	}
+
+	while (secondNode != NULL) {
+		temp->down = secondNode;
+		secondNode = secondNode->down;
+		temp = temp->down;
+	}
+	// return the head of the sorted list
+	return merged->down;
+}
+
+// function to calculate the middle Element
+node* middle(node* head)
+{
+	node* slow = head;
+	node* fast = head->down;
+
+	while (!slow->down && (!fast && !fast->down)) {
+		slow = slow->down;
+		fast = fast->down->down;
+	}
+	return slow;
+}
+
+// function to sort the given list
+node* sort(node* head)
+{
+
+	if (head->down == NULL) {
+		return head;
+	}
+
+	node* mid = (node*)malloc(sizeof(node));
+	node* head2 = (node*)malloc(sizeof(node));
+	mid = middle(head);
+	head2 = mid->down;
+	mid->down = NULL;
+	// recursive call to sort() hence diving our problem,
+	// and then merging the solution
+	node* finalhead = merge(sort(head), sort(head2));
+	return finalhead;
+}
+
 node* newNode(char data[], int page, int line){
     node* p = NULL;
     p = (node*)malloc(sizeof(node));
@@ -75,7 +148,7 @@ int main(){
 
     node* head = NULL;
     int k = 1;
-    while (fscanf(fp, "%s", &text) != EOF && k < 30)
+    while (fscanf(fp, "%s", &text) != EOF && k < 90)
     {
         if (text[strlen(text)-1] == ',' || text[strlen(text)-1] == '.')
             text[strlen(text)-1] = '\0';
@@ -108,7 +181,7 @@ int main(){
     // ba->down = ca;
 
 
-
+    head = sort(head);
     printList(head);
 
     fclose(fp);
