@@ -4,13 +4,12 @@
 
 typedef struct _Node
 {
-    char data[12];
+    char data[13];
     int page, line;
     struct _Node *next, *down;
 } node;
 
 // mergesort
-{
 node* merge(node* firstNode, node* secondNode)
 {
 	node* merged = (node*)malloc(sizeof(node));
@@ -83,7 +82,6 @@ node* sort(node* head)
 	node* finalhead = merge(sort(head), sort(head2));
 	return finalhead;
 }
-}
 
 node* newNode(char data[], int page, int line){
     node* p = NULL;
@@ -122,11 +120,11 @@ void printList(node* head){
     while (pdown)
     {
         pnext = pdown;
-        printf("%12s : page %-4d line %-2d", pnext->data, pnext->page, pnext->line);
+        printf("%13s : page %-3d line %-2d", pnext->data, pnext->page, pnext->line);
         pnext = pnext->next;
         while (pnext)
         {
-            printf(",  page %-4d line %-2d", pnext->page, pnext->line);
+            printf(", page %-3d line %-2d", pnext->page, pnext->line);
             pnext = pnext->next;
         }
         printf("\n");
@@ -138,7 +136,7 @@ node* findNode(node* head, char data[]){
     node* current = head;
     while (current != NULL)
     {
-        if (current->data == data)
+        if (strcmp(current->data, data) == 0)
             return current;
         current = current->down;
     }
@@ -147,24 +145,23 @@ node* findNode(node* head, char data[]){
 
 int main(){
     FILE *fp = NULL;
-    char text[12] = {0};
+    char text[13] = {0};
     fopen_s(&fp, "TestFile.txt", "r");
 
     node* head = NULL;
     int k = 1;
-    while (fscanf(fp, "%s", &text) != EOF && k < 90)
+    while (fscanf(fp, "%s", &text) != EOF)
     {
         if (text[strlen(text)-1] == ',' || text[strlen(text)-1] == '.')
             text[strlen(text)-1] = '\0';
         strlwr(text);
 
-        node* temp = findNode(head, text);
-        if (temp == NULL)
-        {
+        node* temp = NULL;
+        temp = findNode(head, text);
+        if (temp == NULL) {
             head = insertDown(head, text, k / 375 + 1, (k - (k / 375) * 375) / 25 + 1);
         }
-        else
-        {
+        else {
             temp = insertNext(temp, "hehe", k / 375 + 1, (k - (k / 375) * 375) / 25 + 1);
         }
         
