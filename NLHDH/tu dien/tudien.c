@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef struct _Node
 {
@@ -143,6 +144,11 @@ node* findNode(node* head, char data[]){
     return NULL;
 }
 
+void lowerCase(char data[]){
+    if (data[0] < 97)
+        data[0] = tolower(data[0]);
+}
+
 int main(){
     FILE *fp = NULL;
     char text[13] = {0};
@@ -154,7 +160,7 @@ int main(){
     {
         if (text[strlen(text)-1] == ',' || text[strlen(text)-1] == '.')
             text[strlen(text)-1] = '\0';
-        strlwr(text);
+        lowerCase(text);
 
         node* temp = NULL;
         temp = findNode(head, text);

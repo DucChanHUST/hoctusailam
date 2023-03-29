@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef struct _Node
 {
@@ -114,24 +115,6 @@ node* insertDown(node* head, char data[], int page, int line){
     return head;
 }
 
-// void printList(node* head){
-//     node* pnext;
-//     node* pdown = head;
-//     while (pdown)
-//     {
-//         pnext = pdown;
-//         printf("%13s : page %-3d line %-2d", pnext->data, pnext->page, pnext->line);
-//         pnext = pnext->next;
-//         while (pnext)
-//         {
-//             printf(", page %-3d line %-2d", pnext->page, pnext->line);
-//             pnext = pnext->next;
-//         }
-//         printf("\n");
-//         pdown = pdown->down;
-//     }
-// }
-
 node* findNode(node* head, char data[]){
     node* current = head;
     while (current != NULL)
@@ -141,6 +124,11 @@ node* findNode(node* head, char data[]){
         current = current->down;
     }
     return NULL;
+}
+
+void lowerCase(char data[]){
+    if (data[0] < 97)
+        data[0] = tolower(data[0]);
 }
 
 int main(){
@@ -155,7 +143,7 @@ int main(){
     {
         if (text[strlen(text)-1] == ',' || text[strlen(text)-1] == '.')
             text[strlen(text)-1] = '\0';
-        strlwr(text);
+        lowerCase(text);
 
         node* temp = NULL;
         temp = findNode(head, text);
