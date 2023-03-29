@@ -34,8 +34,11 @@ node* insertNext(node* head, char data[], int page, int line){
 node* insertDown(node* head, char data[], int page, int line){
     node* current = newNode(data, page, line);
     if (head == NULL) return current;
-    head->down = current;
-    return current;
+    node* last = head;
+    while (last->down != NULL)
+        last = last->down;
+    last->down = current;
+    return head;
 }
 
 void printList(node* head){
@@ -46,7 +49,7 @@ void printList(node* head){
         pnext = pdown;
         while (pnext)
         {
-            printf("%s ",pnext->data);
+            printf("%12s : page %-4d line %-2d", pnext->data, pnext->page, pnext->line);
             pnext = pnext->next;
         }
         printf("\n");
@@ -70,17 +73,22 @@ int main(){
     char text[12] = {0};
     fopen_s(&fp, "TestFile.txt", "r");
 
-    node* head = NULL, head2 = NULL;
+    node* head = NULL;
     int k = 1;
-    while (fscanf(fp, "%s", &text) != EOF && k < 10)
+    while (fscanf(fp, "%s", &text) != EOF && k < 30)
     {
         if (text[strlen(text)-1] == ',' || text[strlen(text)-1] == '.')
             text[strlen(text)-1] = '\0';
         strlwr(text);
 
-        if (findNode(head, text) == NULL)
+        node* temp = findNode(head, text);
+        if (temp == NULL)
         {
-            
+            head = insertDown(head, text, k / 375 + 1, (k - (k / 375) * 375) / 25 + 1);
+        }
+        else
+        {
+            temp = insertNext(temp, text, k / 375 + 1, (k - (k / 375) * 375) / 25 + 1);
         }
         
         k++;
@@ -101,7 +109,7 @@ int main(){
 
 
 
-    printList(aa);
+    printList(head);
 
     fclose(fp);
     return 0;
