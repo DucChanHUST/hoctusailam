@@ -7,9 +7,10 @@ typedef struct _Node
     char data[12];
     int page, line;
     struct _Node *next, *down;
-
 } node;
 
+// mergesort
+{
 node* merge(node* firstNode, node* secondNode)
 {
 	node* merged = (node*)malloc(sizeof(node));
@@ -82,6 +83,7 @@ node* sort(node* head)
 	node* finalhead = merge(sort(head), sort(head2));
 	return finalhead;
 }
+}
 
 node* newNode(char data[], int page, int line){
     node* p = NULL;
@@ -120,9 +122,11 @@ void printList(node* head){
     while (pdown)
     {
         pnext = pdown;
+        printf("%12s : page %-4d line %-2d", pnext->data, pnext->page, pnext->line);
+        pnext = pnext->next;
         while (pnext)
         {
-            printf("%12s : page %-4d line %-2d", pnext->data, pnext->page, pnext->line);
+            printf(",  page %-4d line %-2d", pnext->page, pnext->line);
             pnext = pnext->next;
         }
         printf("\n");
@@ -161,25 +165,11 @@ int main(){
         }
         else
         {
-            temp = insertNext(temp, text, k / 375 + 1, (k - (k / 375) * 375) / 25 + 1);
+            temp = insertNext(temp, "hehe", k / 375 + 1, (k - (k / 375) * 375) / 25 + 1);
         }
         
         k++;
     }
-
-    // *** test ***
-    // node* aa = newNode("A", 1, 1);
-    // node* ab = newNode("A", 7, 8);
-    // node* ac = newNode("A", 1, 1);
-    // node* ba = newNode("B", 5, 2);
-    // node* bb = newNode("B", 1, 1);
-    // node* ca = newNode("C", 1, 1);
-    // aa->next = ab; 
-    // ab->next = ac;
-    // aa->down = ba;
-    // ba->next = bb;
-    // ba->down = ca;
-
 
     head = sort(head);
     printList(head);
