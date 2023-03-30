@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
 typedef struct _Node
 {
@@ -135,6 +136,8 @@ int main(){
     FILE *fi = NULL;
     FILE *fo = NULL;
     char text[13] = {0};
+    clock_t start,end;
+    start = clock();
     fopen_s(&fi, "TestFile.txt", "r");
 
     node* head = NULL;
@@ -178,9 +181,11 @@ int main(){
         k++;
         pdown = pdown->down;
     }
-    fprintf(fo, "Co tong cong %d tu", k);
+    fprintf(fo, "Co tong cong %d tu \n", k);
 
     fclose(fi);
+    end = clock();
+    fprintf(fo, "Thoi gian thuc thi: %lf",((double)(end-start))/CLOCKS_PER_SEC);
     fclose(fo);
     return 0;
 }
